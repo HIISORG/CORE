@@ -45,23 +45,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Exchange\org.hiis.exchange.address.cs" />
-    <Compile Include="Exchange\org.hiis.exchange.person.cs" />
+    <Compile Include="DB\org.hiis.postgres.cs" />
+    <Compile Include="DB\org.hiis.sql.cs" />
+    <Compile Include="Interchange\org.hiis.exchange.address.cs" />
+    <Compile Include="Interchange\org.hiis.exchange.person.cs" />
+    <Compile Include="FHIR\org.hiis.fhir.cs" />
     <Compile Include="HL7\org.hiis.hl7.v2.cs" />
     <Compile Include="HL7\org.hiis.hl7.v3.cs" />
-    <Compile Include="DB\org.hiis.db.postgres.cs" />
     <Compile Include="org.hiis.security.cs" />
-    <Compile Include="DB\org.hiis.db.sql.cs" />
+    <Compile Include="Utility\org.hiis.utility.Damm.cs" />
+    <Compile Include="Utility\org.hiis.utility.Luhn.cs" />
+    <Compile Include="Utility\org.hiis.utility.Verhoeff.cs" />
     <Compile Include="Web\org.hiis.web.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utility\org.hiis.utility.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="FHIR\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
