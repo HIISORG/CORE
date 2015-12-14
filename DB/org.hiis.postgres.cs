@@ -131,6 +131,9 @@ namespace org.hiis {
 				return "NULL";
 			}
 		}
+		public static string GetSQLDateTime(string date){
+			return GetSQLDateTime(date, "00:00");
+		}
 		/// <summary>
 		/// Convert a string into a readable integer format string
 		/// </summary>
@@ -154,6 +157,30 @@ namespace org.hiis {
 		/// <returns></returns>
 		public static string GetSQLInt(int value) {
 			return value.ToString();
+		}
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="value"></param>
+		/// <returns>Customerized composite numeric value</returns>
+		public static string GetSQLNumeric(string value) {
+			if (string.IsNullOrWhiteSpace(value)) {
+				return "NULL";
+			} else {
+				decimal v;
+				if (decimal.TryParse(value,out v)) {
+					value = value.Trim();
+					int d;
+					if (value.IndexOf('.') >= 0) {
+						d = value.Substring(value.IndexOf('.')).Length - 1;
+					} else {
+						d = 0;
+					}
+					return "'(" + value + ",\"" + value + "\"," + d + ")'";
+				} else {
+					return "NULL";
+				}
+			}
 		}
 		public static string GetSQLGeometry(string coord) {
 			return "'(" + coord + ")'";
