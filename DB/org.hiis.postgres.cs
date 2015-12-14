@@ -131,6 +131,9 @@ namespace org.hiis {
 				return "NULL";
 			}
 		}
+		public static string GetSQLDateTime(string date){
+			return GetSQLDateTime(date, "00:00");
+		}
 		/// <summary>
 		/// Convert a string into a readable integer format string
 		/// </summary>
