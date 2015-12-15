@@ -28,10 +28,9 @@ namespace org.hiis {
 		public static string GetSQLString(string phrase) {
 			return GetSQLString(phrase, false);
 		}
-
 		public static string GetSQLGUID(string phrase) {
 			if (string.IsNullOrWhiteSpace(phrase)) {
-				return "NULL";
+				return GetNewGUID();
 			} else {
 				switch (phrase.Length) {
 					case 38:
