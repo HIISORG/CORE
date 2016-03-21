@@ -294,5 +294,12 @@ namespace org.hiis {
 		public static string GetNewKey() {
 			return System.Configuration.ConfigurationManager.AppSettings["SiteID"] + ((DateTime.UtcNow.Ticks - 621355968000000000) / 10000).ToString("000000000000000");
 		}
+
+		public static string ConnectionStringBuilder(string server, string port, string database, string username, string password) {
+			return "Server=" + server + ";Database=" + database + ";User ID=" + username + ";Password=" + password + ";Timeout=20;";
+		}
+		public static string ConnectionStringBuilder(string server, string database, string username, string password) {
+			return ConnectionStringBuilder(server, "5432", database, username, password);
+		}
 	}
 }
