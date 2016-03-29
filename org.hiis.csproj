@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>C:\Temp\org.hiis\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -52,7 +52,7 @@
     <Compile Include="FHIR\org.hiis.fhir.cs" />
     <Compile Include="HL7\org.hiis.hl7.v2.cs" />
     <Compile Include="HL7\org.hiis.hl7.v3.cs" />
-    <Compile Include="org.hiis.security.cs" />
+    <Compile Include="Security\org.hiis.security.cs" />
     <Compile Include="Utility\org.hiis.utility.Damm.cs" />
     <Compile Include="Utility\org.hiis.utility.Luhn.cs" />
     <Compile Include="Utility\org.hiis.utility.Verhoeff.cs" />
