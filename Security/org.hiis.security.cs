@@ -143,7 +143,6 @@ namespace org.hiis.Security {
 		}
 	}
 	#endregion
-
 	#region NetResource
 	// http://stackoverflow.com/questions/295538/how-to-provide-user-name-and-password-when-connecting-to-a-network-share/1197430#1197430
 	[StructLayout(LayoutKind.Sequential)]

@@ -46,7 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DB\org.hiis.postgres.cs" />
-    <Compile Include="DB\org.hiis.sql.cs" />
+    <Compile Include="DB\org.hiis.mssql.cs" />
     <Compile Include="Interchange\org.hiis.exchange.address.cs" />
     <Compile Include="Interchange\org.hiis.exchange.person.cs" />
     <Compile Include="FHIR\org.hiis.fhir.cs" />
