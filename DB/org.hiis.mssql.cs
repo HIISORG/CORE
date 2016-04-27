@@ -197,8 +197,12 @@ namespace org.hiis {
 		/// <param name="time"></param>
 		/// <returns></returns>
 		public static string GetTime(string time) {
-			DateTime dt = Convert.ToDateTime(time);
-			return dt.ToString("HH:mm");
+			try {
+				DateTime dt = Convert.ToDateTime(time);
+				return dt.ToString("HH:mm");
+			} catch {
+				return "";
+			}
 		}
 		public static bool GetBoolean(string value) {
 			switch (value) {

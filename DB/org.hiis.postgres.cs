@@ -157,6 +157,17 @@ namespace org.hiis {
 		public static string GetSQLInt(int value) {
 			return value.ToString();
 		}
+		public static string GetSQLDecimal(string value) {
+			if (string.IsNullOrWhiteSpace(value)) {
+				return "NULL";
+			} else {
+				try {
+					return Convert.ToDecimal(value).ToString();
+				} catch {
+					return "NULL";
+				}
+			}
+		}
 		/// <summary>
 		/// 
 		/// </summary>
@@ -175,7 +186,7 @@ namespace org.hiis {
 					} else {
 						d = 0;
 					}
-					return "'(" + value + ",\"" + value + "\"," + d + ")'";
+					return "'(" + value + ",\'" + value + "\'," + d + ")'";
 				} else {
 					return "NULL";
 				}
