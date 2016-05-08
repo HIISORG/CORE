@@ -157,6 +157,9 @@ namespace org.hiis {
 		public static string GetSQLInt(int value) {
 			return value.ToString();
 		}
+		public static string GetSQLInt(Int64 value) {
+			return value.ToString();
+		}
 		public static string GetSQLDecimal(string value) {
 			if (string.IsNullOrWhiteSpace(value)) {
 				return "NULL";

@@ -207,8 +207,10 @@ namespace org.hiis {
 		public static bool GetBoolean(string value) {
 			switch (value) {
 				case "0":
+				case "False":
 					return false;
 				case "1":
+				case "True":
 					return true;
 				default:
 					return false;
