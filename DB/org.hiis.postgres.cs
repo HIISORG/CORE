@@ -104,9 +104,12 @@ namespace org.hiis {
 		public static string GetSQLDateTime(string date, string time) {
 			try {
 				DateTime d = Convert.ToDateTime(date);
-				if (string.IsNullOrWhiteSpace(time)) time = "00:00";
-				DateTime t = Convert.ToDateTime(time);
-				return "'" + d.ToString("yyyy-MM-dd") + " " + t.ToString("HH:mm") + "'";
+				if (string.IsNullOrWhiteSpace(time)) {
+					return "'" + d.ToString("yyyy-mm-dd") + "'";
+				} else {
+					DateTime t = Convert.ToDateTime(time);
+					return "'" + d.ToString("yyyy-MM-dd") + " " + t.ToString("HH:mm") + "'";
+				}
 			} catch {
 				return "NULL";
 			}

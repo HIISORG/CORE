@@ -28,7 +28,6 @@
 			return tmp;
 		}
 
-
 		public IDictionary<string, string> COUNTRY = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase) {
 			{"AF", "Afghanistan"},
 			{"AX", "Åland Islands"},
