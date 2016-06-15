@@ -77,7 +77,9 @@ namespace org.hiis {
 		/// <returns></returns>
 		public static string GetSQLDate(string date) {
 			try {
-				DateTime d = Convert.ToDateTime(date);
+				DateTime d;
+				if (System.Web.HttpContext.Current != null) d = DateTime.ParseExact(date, System.Web.HttpContext.Current.Session["DTFMT"].ToString(), System.Globalization.CultureInfo.InvariantCulture);
+				else d = Convert.ToDateTime(date);
 				return "'" + d.ToString("yyyy-MM-dd") + "'";
 			} catch {
 				return "NULL";
@@ -103,7 +105,9 @@ namespace org.hiis {
 		/// <returns></returns>
 		public static string GetSQLDateTime(string date, string time) {
 			try {
-				DateTime d = Convert.ToDateTime(date);
+				DateTime d;
+				if (System.Web.HttpContext.Current != null) d = DateTime.ParseExact(date, System.Web.HttpContext.Current.Session["DTFMT"].ToString(), System.Globalization.CultureInfo.InvariantCulture);
+				else d = Convert.ToDateTime(date);
 				if (string.IsNullOrWhiteSpace(time)) {
 					return "'" + d.ToString("yyyy-mm-dd") + "'";
 				} else {

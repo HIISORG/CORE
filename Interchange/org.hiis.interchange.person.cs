@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 
-namespace org.hiis.Exchange {
+namespace org.hiis.Interchange {
 	public class Person {
 		#region Name
 		public string FirstName {
@@ -28,6 +29,7 @@ namespace org.hiis.Exchange {
 			set { }
 		}
 		#endregion
+		List<Address> Address = new List<Address>();
 		#region Other
 		public int GetAge(DateTime dob) {
 			return GetAge(dob, DateTime.Today);
@@ -60,17 +62,7 @@ namespace org.hiis.Exchange {
 				return -1;
 			}
 		}
-		#endregion
-		#region Address
-		public string StreetNumber {
-			get; set;
-		}
-		public string StreetName {
-			get; set;
-		}
-		public string StreetType {
-			get; set;
-		}
-		#endregion
+            		#endregion
+
 	}
 }

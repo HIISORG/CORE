@@ -1,4 +1,4 @@
-﻿namespace org.hiis.Exchange {
+﻿namespace org.hiis.Interchange {
 	using System;
 	using System.Collections.Generic;
 
