@@ -2,7 +2,7 @@
 using System.Linq;
 
 namespace org.hiis.Utility {
-	public static class Damm {
+	public class Damm {
 		#region Define variables
 		static int[,] matrix = new int[,] {
 			{0, 3, 1, 7, 5, 9, 8, 6, 4, 2},

@@ -68,7 +68,7 @@ namespace org.hiis {
 		/// <param name="value"></param>
 		/// <returns></returns>
 		public static string GetSQLBoolean(bool value) {
-			return value ? "1" : "0";
+			return value ? "true" : "false";
 		}
 		/// <summary>
 		/// Get a SQL format date with single quote
@@ -103,6 +103,10 @@ namespace org.hiis {
 		/// <param name="date"></param>
 		/// <param name="time"></param>
 		/// <returns></returns>
+		public static string GetSQLDateTime(string date)
+		{
+			return GetSQLDateTime (date, "00:00");
+		}
 		public static string GetSQLDateTime(string date, string time) {
 			try {
 				DateTime d;
@@ -124,22 +128,20 @@ namespace org.hiis {
 		/// <param name="date"></param>
 		/// <param name="time"></param>
 		/// <returns></returns>
+		public static string GetSQLDateTime(DateTime datetime)
+		{
+			try {
+				return "'" + datetime.ToString ("yyyy-MM-dd") + " " + datetime.ToString ("HH:mm:ss") + "'";
+			} catch {
+				return "NULL";
+			}
+		}
 		public static string GetSQLDateTime(DateTime date, DateTime time) {
 			try {
 				return "'" + date.ToString("yyyy-MM-dd") + " " + time.ToString("HH:mm") + "'";
 			} catch {
 				return "NULL";
 			}
-		}
-		public static string GetSQLDateTime(DateTime datetime) {
-			try {
-				return "'" + datetime.ToString("yyyy-MM-dd") + " " + datetime.ToString("HH:mm:ss") + "'";
-			} catch {
-				return "NULL";
-			}
-		}
-		public static string GetSQLDateTime(string date){
-			return GetSQLDateTime(date, "00:00");
 		}
 		/// <summary>
 		/// Convert a string into a readable integer format string
