@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web;
 
 namespace org.hiis {
 	public class Postgres{
@@ -78,7 +79,7 @@ namespace org.hiis {
 		public static string GetSQLDate(string date) {
 			try {
 				DateTime d;
-				if (System.Web.HttpContext.Current != null) d = DateTime.ParseExact(date, System.Web.HttpContext.Current.Session["DTFMT"].ToString(), System.Globalization.CultureInfo.InvariantCulture);
+				if (System.Web.HttpContext.Current != null) d = System.DateTime.ParseExact(date, System.Web.HttpContext.Current.Session["DTFMT"].ToString(), System.Globalization.CultureInfo.InvariantCulture);
 				else d = Convert.ToDateTime(date);
 				return "'" + d.ToString("yyyy-MM-dd") + "'";
 			} catch {
@@ -110,7 +111,7 @@ namespace org.hiis {
 		public static string GetSQLDateTime(string date, string time) {
 			try {
 				DateTime d;
-				if (System.Web.HttpContext.Current != null) d = DateTime.ParseExact(date, System.Web.HttpContext.Current.Session["DTFMT"].ToString(), System.Globalization.CultureInfo.InvariantCulture);
+				if (System.Web.HttpContext.Current != null) d = System.DateTime.ParseExact(date, System.Web.HttpContext.Current.Session["DTFMT"].ToString(), System.Globalization.CultureInfo.InvariantCulture);
 				else d = Convert.ToDateTime(date);
 				if (string.IsNullOrWhiteSpace(time)) {
 					return "'" + d.ToString("yyyy-mm-dd") + "'";
@@ -312,11 +313,157 @@ namespace org.hiis {
 		}
 		#endregion
 
+		public static string Date(object date) {
+			if (date.GetType().ToString() == "System.DateTime") {
+				string dtformat = string.Empty;
+				if (HttpContext.Current.Session["dtformat"] != null) dtformat = HttpContext.Current.Session["dtformat"].ToString();
+				if (string.IsNullOrWhiteSpace(dtformat)) dtformat = System.Configuration.ConfigurationManager.AppSettings["DateFormat"];
+
+				return ((DateTime)date).ToString(dtformat);
+			} else {
+				return string.Empty;
+			}
+		}
+		public static string Date(string date) {
+			string dtformat = string.Empty;
+			if (HttpContext.Current.Session["dtformat"] != null) dtformat = HttpContext.Current.Session["dtformat"].ToString();
+			if (string.IsNullOrWhiteSpace(dtformat)) dtformat = System.Configuration.ConfigurationManager.AppSettings["DateFormat"];
+
+			// remove time
+			if (date.Contains(" ")) date = date.Substring(0, date.IndexOf(" "));
+
+			string[] dt = date.Split('-');
+			switch (dt.Length) {
+				case 1: return date;
+				case 2:
+					switch (dtformat) {
+						case "yyyy-MM-dd": return dt[0] + "-" + dt[1];
+						default: return dt[1] + "/" + dt[0];
+					}
+				case 3:
+					switch (dtformat) {
+						case "dd/MM/yyyy": return dt[2] + "/" + dt[1] + "/" + dt[0];
+						case "MM/dd/yyyy": return dt[1] + "/" + dt[2] + "/" + dt[0];
+						default: return date;
+					}
+				default: return string.Empty;
+			}
+		}
+		public static string Time(object time) {
+			if (time.GetType().ToString() == "System.DateTime") {
+				return ((DateTime)time).ToString("HH:mm");
+			} else {
+				return string.Empty;
+			}
+		}
+		public static string DateTime(object date) {
+			if (date.GetType().ToString() == "System.DateTime") {
+				string dtformat = string.Empty;
+				if (HttpContext.Current.Session["dtformat"] != null) dtformat = HttpContext.Current.Session["dtformat"].ToString();
+				if (string.IsNullOrWhiteSpace(dtformat)) dtformat = System.Configuration.ConfigurationManager.AppSettings["DateFormat"];
+
+				return ((DateTime)date).ToString(dtformat + " HH:mm");
+			} else {
+				return string.Empty;
+			}
+		}
+		public static bool Boolean(object obj) {
+			if (obj.GetType().ToString() == "System.Boolean") return (bool)obj;
+			else return false;
+		}
+		public static string SQLDate(string date) {
+			if (string.IsNullOrEmpty(date)) return string.Empty;
+			else {
+				string dtformat = string.Empty;
+				if (HttpContext.Current.Session["dtformat"] != null) dtformat = HttpContext.Current.Session["dtformat"].ToString();
+				if (string.IsNullOrWhiteSpace(dtformat)) dtformat = System.Configuration.ConfigurationManager.AppSettings["DateFormat"];
+
+				string[] dt;
+				if (dtformat == "yyyy-MM-dd") dt = date.Split('-');
+				else dt = date.Split('/');
+
+				if (dt.Length == 3) {
+					switch (dtformat) {
+						case "dd/MM/yyyy": return "'" + dt[2] + "-" + dt[1] + "-" + dt[0] + "'";
+						case "MM/dd/yyyy": return "'" + dt[2] + "-" + dt[0] + "-" + dt[1] + "'";
+						default: return "'" + date + "'";
+					}
+				} else {
+					int year, month;
+					if (dt.Length == 1) {
+						if (int.TryParse(date, out year)) return "[" + dt[0] + "-01-01," + (year + 1) + "-01-01)";
+						else return "(,)";
+					} else {
+						if (dtformat == "yyyy-MM-dd") {
+							if (int.TryParse(dt[0], out year) && int.TryParse(dt[1], out month)) {
+								if (month == 12) return "[" + year + "-" + month + "-01," + (year + 1) + "-01-01)";
+								else return "[" + year + "-" + month + "-01," + year + (month + 1) + "-01)";
+							} else return "(,)";
+						} else {
+							if (int.TryParse(dt[1], out year) && int.TryParse(dt[0], out month)) {
+								if (month == 12) return "[" + year + "-" + month + "-01," + (year + 1) + "-01-01)";
+								else return "[" + year + "-" + month + "-01," + year + (month + 1) + "-01)";
+							} else return "(,)";
+						}
+					}
+				}
+			}
+		}
+		public static string SQLDate(string start, string end) {
+			start = FormatDate(start);
+			end = FormatDate(end);
+
+			if (string.IsNullOrWhiteSpace(start)) {
+				if (string.IsNullOrWhiteSpace(end)) return "(,)";
+				else return "(," + end + "]";
+			} else if (string.IsNullOrWhiteSpace(end)) {
+				return "[" + start + ",)";
+			} else {
+				return "[" + start + "," + end + "]";
+			}
+		}
+		public static string SQLDateTime(string date, string time) {
+			if (string.IsNullOrWhiteSpace(time)) return FormatDate(date);
+			else return FormatDate(date) + " " + time;
+		}
+		public static void AddInteger(Npgsql.NpgsqlCommand cmd, string field, string value) {
+			Int64 v;
+			if (Int64.TryParse(value, out v)) {
+				cmd.Parameters.AddWithValue(field, v);
+			} else {
+				cmd.Parameters.AddWithValue(field, DBNull.Value);
+			}
+		}
+		public static void AddUUID(Npgsql.NpgsqlCommand cmd, string field, string value) {
+			if (string.IsNullOrWhiteSpace(value)) {
+				cmd.Parameters.AddWithValue(field, DBNull.Value);
+			} else {
+				cmd.Parameters.AddWithValue(field, new Guid(value));
+			}
+		}
+
+		private static string FormatDate(string date) {
+			if (string.IsNullOrEmpty(date)) return string.Empty;
+			else {
+				string dtformat = string.Empty;
+				if (HttpContext.Current.Session["dtformat"] != null) dtformat = HttpContext.Current.Session["dtformat"].ToString();
+				if (string.IsNullOrWhiteSpace(dtformat)) dtformat = System.Configuration.ConfigurationManager.AppSettings["DateFormat"];
+
+				if (dtformat != "yyyy-MM-dd") {
+					string[] dt = date.Split('/');
+					switch (dtformat) {
+						case "dd/MM/yyyy": return dt[2] + "-" + dt[1] + "-" + dt[0];
+						default: return dt[2] + "-" + dt[0] + "-" + dt[1];
+					}
+				} else return date;
+			}
+		}
+
 		public static string GetNewGUID() {
 			return "'" + System.Guid.NewGuid().ToString() + "'";
 		}
 		public static string GetNewKey() {
-			return System.Configuration.ConfigurationManager.AppSettings["SiteID"] + ((DateTime.UtcNow.Ticks - 621355968000000000) / 10000).ToString("000000000000000");
+			return System.Configuration.ConfigurationManager.AppSettings["SiteID"] + ((System.DateTime.UtcNow.Ticks - 621355968000000000) / 10000).ToString("000000000000000");
 		}
 
 		public static string ConnectionStringBuilder(string server, string port, string database, string username, string password) {

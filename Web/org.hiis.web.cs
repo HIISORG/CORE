@@ -633,5 +633,13 @@ namespace org.hiis {
 
 			return _mappings.TryGetValue(extension, out mime) ? mime : "application/octet-stream";
 		}
+
+		public static void WriteError(Exception ex, Npgsql.NpgsqlCommand cmd) {
+			if (System.Configuration.ConfigurationManager.AppSettings["Debug"] == "true") {
+				HttpContext.Current.Response.Write(ex.Message + "<br />" + ex.StackTrace + "<br />" + cmd.CommandText);
+			} else {
+				HttpContext.Current.Response.Write(ex.Message + "<br />" + ex.StackTrace);
+			}
+		}
 	}
 }

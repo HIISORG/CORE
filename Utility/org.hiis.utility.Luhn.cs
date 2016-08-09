@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace org.hiis.Utility {
+﻿namespace org.hiis.Utility {
 	public static class Luhn {
 		public static string GenerateCheckSum(string id) {
 			var sum = 0;
