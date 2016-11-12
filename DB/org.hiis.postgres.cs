@@ -200,7 +200,7 @@ namespace org.hiis {
 					} else {
 						d = 0;
 					}
-					return "'(" + value + ",\'" + value + "\'," + d + ")'";
+					return "'(" + value + ",\"" + value + "\"," + d + ")'";
 				} else {
 					return "NULL";
 				}
