@@ -98,6 +98,13 @@ namespace org.hiis {
 				return "NULL";
 			}
 		}
+		public static string GetSQLDate(string date, string format) {
+			if (string.IsNullOrWhiteSpace(date)) {
+				return "NULL";
+			} else {
+				return "to_char('" + date + "','" + format.ToUpper() + "')";
+			}
+		}
 		/// <summary>
 		/// Get a SQL format date and time with single quote
 		/// </summary>
