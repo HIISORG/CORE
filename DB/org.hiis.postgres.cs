@@ -216,6 +216,37 @@ namespace org.hiis {
 		public static string GetSQLGeometry(string coord) {
 			return "'(" + coord + ")'";
 		}
+    public static string GetSQLTimestampArray(string startdate, string starttime, string enddate, string endtime) {
+      if (string.IsNullOrWhiteSpace(starttime)) starttime = "00:00";
+      if (string.IsNullOrWhiteSpace(endtime)) endtime = "00:00";
+      try {
+        DateTime d;
+        if (HttpContext.Current != null) {
+          d = System.DateTime.ParseExact(startdate + " " + starttime, System.Web.HttpContext.Current.Session["DTFMT"].ToString() + " HH:mm", System.Globalization.CultureInfo.InvariantCulture);
+        } else {
+          d = Convert.ToDateTime(startdate + " " + starttime);
+        }
+        startdate = d.ToString("yyyy-MM-dd HH:mm");
+      } catch (FormatException) {
+        startdate = string.Empty;
+      } catch (ArgumentNullException) {
+        startdate = string.Empty;
+      }
+      try {
+        DateTime d;
+        if (HttpContext.Current != null) {
+          d = System.DateTime.ParseExact(enddate + " " + endtime, System.Web.HttpContext.Current.Session["DTFMT"].ToString() + " HH:mm", System.Globalization.CultureInfo.InvariantCulture);
+        } else {
+          d = Convert.ToDateTime(enddate + " " + endtime);
+        }
+        enddate = d.ToString("yyyy-MM-dd HH:mm");
+      } catch (FormatException) {
+        enddate = string.Empty;
+      } catch (ArgumentNullException) {
+        enddate = string.Empty;
+      }
+      return "'[" + startdate + "," + enddate + "]'";
+    }
 		#endregion
 
 		#region Convert from SQL format
@@ -374,6 +405,18 @@ namespace org.hiis {
 				return string.Empty;
 			}
 		}
+    public static string DateTime(string date, string time) {
+      if (string.IsNullOrWhiteSpace(date)) return "NULL";
+      else {
+        date = Date(date);
+        if (string.IsNullOrWhiteSpace(date)) return "NULL";
+        else {
+          if (string.IsNullOrWhiteSpace(time)) time = "00:00";
+          return date + " " + time;
+        }
+      }
+      return string.Empty;
+    }
 		public static bool Boolean(object obj) {
 			if (obj.GetType().ToString() == "System.Boolean") return (bool)obj;
 			else return false;
