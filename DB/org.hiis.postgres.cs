@@ -121,7 +121,7 @@ namespace org.hiis {
 				if (System.Web.HttpContext.Current != null) d = System.DateTime.ParseExact(date, System.Web.HttpContext.Current.Session["DTFMT"].ToString(), System.Globalization.CultureInfo.InvariantCulture);
 				else d = Convert.ToDateTime(date);
 				if (string.IsNullOrWhiteSpace(time)) {
-					return "'" + d.ToString("yyyy-mm-dd") + "'";
+					return "'" + d.ToString("yyyy-MM-dd") + "'";
 				} else {
 					DateTime t = Convert.ToDateTime(time);
 					return "'" + d.ToString("yyyy-MM-dd") + " " + t.ToString("HH:mm") + "'";
