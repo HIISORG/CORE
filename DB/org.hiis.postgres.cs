@@ -198,8 +198,7 @@ namespace org.hiis {
 			if (string.IsNullOrWhiteSpace(value)) {
 				return "NULL";
 			} else {
-				decimal v;
-				if (decimal.TryParse(value,out v)) {
+				if (decimal.TryParse(value, out decimal v)) {
 					value = value.Trim();
 					int d;
 					if (value.IndexOf('.') >= 0) {
@@ -415,7 +414,6 @@ namespace org.hiis {
           return date + " " + time;
         }
       }
-      return string.Empty;
     }
 		public static bool Boolean(object obj) {
 			if (obj.GetType().ToString() == "System.Boolean") return (bool)obj;
@@ -477,8 +475,7 @@ namespace org.hiis {
 			else return FormatDate(date) + " " + time;
 		}
 		public static void AddInteger(Npgsql.NpgsqlCommand cmd, string field, string value) {
-			Int64 v;
-			if (Int64.TryParse(value, out v)) {
+			if (Int64.TryParse(value, out long v)) {
 				cmd.Parameters.AddWithValue(field, v);
 			} else {
 				cmd.Parameters.AddWithValue(field, DBNull.Value);
