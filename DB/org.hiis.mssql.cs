@@ -176,7 +176,7 @@ namespace org.hiis {
 		/// <summary>
 		/// Convert a SQL int16 or int32 format to a string vlaue for String operation.
 		/// </summary>
-		/// <param name="s"></param>
+		/// <param name="value"></param>
 		/// <returns></returns>
 		public static string GetInt(string value) {
 			if (string.IsNullOrEmpty(value)) {

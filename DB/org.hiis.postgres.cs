@@ -109,7 +109,6 @@ namespace org.hiis {
 		/// Get a SQL format date and time with single quote
 		/// </summary>
 		/// <param name="date"></param>
-		/// <param name="time"></param>
 		/// <returns></returns>
 		public static string GetSQLDateTime(string date)
 		{
@@ -133,8 +132,7 @@ namespace org.hiis {
 		/// <summary>
 		/// Get a SQL format date and time with single quote
 		/// </summary>
-		/// <param name="date"></param>
-		/// <param name="time"></param>
+		/// <param name="datetime"></param>
 		/// <returns></returns>
 		public static string GetSQLDateTime(DateTime datetime)
 		{
@@ -292,7 +290,7 @@ namespace org.hiis {
 		/// <summary>
 		/// Convert a SQL int16 or int32 format to a string vlaue for String operation.
 		/// </summary>
-		/// <param name="s"></param>
+		/// <param name="value"></param>
 		/// <returns></returns>
 		public static string GetInt(string value) {
 			if (string.IsNullOrEmpty(value)) {
@@ -367,7 +365,7 @@ namespace org.hiis {
 			if (string.IsNullOrWhiteSpace(dtformat)) dtformat = System.Configuration.ConfigurationManager.AppSettings["DateFormat"];
 
 			// remove time
-			if (date.Contains(" ")) date = date.Substring(0, date.IndexOf(" "));
+			if (date.Contains(" ")) date = date.Substring(0, date.IndexOf(" ", StringComparison.CurrentCulture));
 
 			string[] dt = date.Split('-');
 			switch (dt.Length) {
@@ -514,7 +512,8 @@ namespace org.hiis {
 		}
 
 		public static string ConnectionStringBuilder(string server, string port, string database, string username, string password) {
-			return "Server=" + server + ";Database=" + database + ";User ID=" + username + ";Password=" + password + ";Timeout=20;";
+			if (string.IsNullOrWhiteSpace((port))) port = "54232";
+			return "Server=" + server + ";Port=" + port + ";Database=" + database + ";User ID=" + username + ";Password=" + password + ";Timeout=20;";
 		}
 		public static string ConnectionStringBuilder(string server, string database, string username, string password) {
 			return ConnectionStringBuilder(server, "5432", database, username, password);
